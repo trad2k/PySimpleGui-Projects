@@ -64,7 +64,7 @@ while True:
     if event == 'Enter':
         if full_operation and full_operation[1]:
             full_operation.append(''.join(current_num))
-            result = eval(''.join(full_operation))
+            result = round(eval(''.join(full_operation)), 10)
             window['-OUTPUT1-'].update(result)
             full_operation = []
             current_num = [str(result)]
