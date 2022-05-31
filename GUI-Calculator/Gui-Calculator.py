@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
 import sys
 
+#simple project
 
 def create_window(theme):
     sg.theme(theme)
