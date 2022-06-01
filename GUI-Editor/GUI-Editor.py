@@ -29,6 +29,14 @@ while True:
         break
 
     if event == 'Word Count':
-        print(smiles_events)
+        full_text = values['-TEXTBOX-']
+        clean_text = full_text.replace('\n', '').split(' ')
+        word_count = len(clean_text)
+        char_count = len(''.join(clean_text))
+        sg.popup(f'Words: {word_count}\nCharacters: {char_count}')
+
+    if event in smiles_events:
+        window['-TEXTBOX-'].update(values['-TEXTBOX-'] + ' ' + event)
+        print(event)
 
 window.close()
