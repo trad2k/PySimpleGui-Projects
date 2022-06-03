@@ -45,28 +45,31 @@ window = sg.Window('GUI-Snake', layout, return_keyboard_events=True)
 
 start_time = time()
 
+refresh_timeout = 100
+
 while True:
-    event, values = window.read(timeout=100)
+    event, values = window.read(timeout=refresh_timeout)
     if event == sg.WIN_CLOSED:
         break
 
     if event == 'Left:37':
-        direction = DIRECTIONS['left']
+        if direction != (1, 0):
+            direction = DIRECTIONS['left']
 
     if event == 'Up:38':
-        direction = DIRECTIONS['up']
+        if direction != (0, -1):
+            direction = DIRECTIONS['up']
 
     if event == 'Right:39':
-        direction = DIRECTIONS['right']
+        if direction != (-1, 0):
+            direction = DIRECTIONS['right']
 
     if event == 'Down:40':
-        direction = DIRECTIONS['down']
-
-    if event != '__TIMEOUT__':
-        print(event)
+        if direction != (0, 1):
+            direction = DIRECTIONS['down']
 
     time_since_start = time() - start_time
-    if time_since_start >= 0.5:
+    if time_since_start >= 0.25:
         start_time = time()
 
         # apple snake collision
@@ -81,12 +84,11 @@ while True:
 
         # check death
         if not 0 <= snake_body[0][0] <= CELL_NUM - 1 or \
-           not 0 <= snake_body[0][1] <= CELL_NUM - 1 or \
-           snake_body[0] in snake_body[1:]:
-                break
-
-        if not 0 <= snake_body[0][0] <= CELL_NUM - 1:
-            break
+                not 0 <= snake_body[0][1] <= CELL_NUM - 1 or \
+                snake_body[0] in snake_body[1:]:
+            refresh_timeout = 100000
+            apple_pos = (-1, -1)
+            sg.popup('You loose!', )
 
         field.DrawRectangle((0, 0), (FIELD_SIZE, FIELD_SIZE), 'Black')
 
