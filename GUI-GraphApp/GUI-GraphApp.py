@@ -8,11 +8,13 @@ layout = [
               values=table_content,
               expand_x=True,
               hide_vertical_scroll=True,
-              key='TABLE-')],
+              key='-TABLE-')],
     [sg.Input(key='-INPUT-', expand_x=True), sg.Button('Submit')]
 ]
 
 window = sg.Window('GUI-GraphApp', layout)
+
+observ_num = 0
 
 while True:
     event, values = window.read()
@@ -22,6 +24,9 @@ while True:
     if event == 'Submit':
         new_value = values['-INPUT-']
         if new_value.isnumeric():
-            window['-TABLE-'].update([[1, 10],[2, 12], [3,0]])
+            observ_num +=1
+            table_content.append([observ_num, new_value])
+            window['-TABLE-'].update(table_content)
+            window['-INPUT-'].update('')
 
 window.close()
