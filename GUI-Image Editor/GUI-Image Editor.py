@@ -1,10 +1,10 @@
 import PySimpleGUI as sg
 from PIL import Image, ImageFilter, ImageOps
 from io import BytesIO
-from pathlib import Path
 
 
 def update_image(original, blur, contrast, emboss, contour, flipx, flipy):
+    global image
     image = original.filter(ImageFilter.GaussianBlur(blur))
     image = image.filter(ImageFilter.UnsharpMask(contrast))
 
@@ -23,7 +23,7 @@ def update_image(original, blur, contrast, emboss, contour, flipx, flipy):
     window['-IMAGE-'].update(data=bio.getvalue())
 
 
-image_path = 'test.png'
+image_path = sg.popup_get_file('Open', no_window=True)
 
 control_col = sg.Column([
     [sg.Frame('Blur', layout=[[sg.Slider(range=(0, 10), orientation='h', key='-BLUR-')]])],
@@ -39,7 +39,7 @@ original = Image.open(image_path)
 window = sg.Window('GUI-Image Editor', layout)
 
 while True:
-    event, values = window.read(timeout=100)
+    event, values = window.read(timeout=200)
     if event == sg.WIN_CLOSED:
         break
 
@@ -47,8 +47,7 @@ while True:
         file_path = sg.popup_get_file('Save as', no_window=True, save_as=True)
         if file_path[-4:] != '.png':
             file_path += '.png'
-        file = Path(file_path)
-        image.save(file, format='PNG')
+        image.save(file_path, 'PNG')
 
     update_image(
         original,
