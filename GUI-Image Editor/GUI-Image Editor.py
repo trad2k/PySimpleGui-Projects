@@ -22,6 +22,9 @@ def update_image(original, blur, contrast, emboss, contour, flipx, flipy):
     image.save(bio, format='PNG')
     window['-IMAGE-'].update(data=bio.getvalue())
 
+#
+# Add open button, and proper dialogue
+#
 
 image_path = sg.popup_get_file('Open', no_window=True)
 
