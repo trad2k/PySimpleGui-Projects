@@ -22,13 +22,11 @@ def update_image(original, blur, contrast, emboss, contour, flipx, flipy):
     image.save(bio, format='PNG')
     window['-IMAGE-'].update(data=bio.getvalue())
 
-#
-# Add open button, and proper dialogue
-#
 
-image_path = sg.popup_get_file('Open', no_window=True)
+image_path = 'test.png'
 
 control_col = sg.Column([
+    [sg.Button('Open', key='-OPEN-')],
     [sg.Frame('Blur', layout=[[sg.Slider(range=(0, 10), orientation='h', key='-BLUR-')]])],
     [sg.Frame('Contrast', layout=[[sg.Slider(range=(0, 10), orientation='h', key='-CONTRAST-')]])],
     [sg.Checkbox('Emboss', key='-EMBOSS-'), sg.Checkbox('Contour', key='-CONTOUR-')],
@@ -51,6 +49,10 @@ while True:
         if file_path[-4:] != '.png':
             file_path += '.png'
         image.save(file_path, 'PNG')
+
+    if event == '-OPEN-':
+        image_path = sg.popup_get_file('Open', no_window=True)
+        original = Image.open(image_path)
 
     update_image(
         original,
