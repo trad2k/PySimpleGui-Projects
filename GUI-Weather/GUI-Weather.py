@@ -40,10 +40,7 @@ while True:
     if event == sg.WIN_CLOSED:
         break
 
-    if event == '-INPUT-' + '_Enter':
-        print(event)
-
-    if event == 'Enter' or event == '<Return>':
+    if event == 'Enter' or '-INPUT-_Enter':
         name, time, weather, temp = get_weather_data(values['-INPUT-'])
         window['-LOCATION-'].update(name, visible=True)
         window['-TIME-'].update(time.split(' ')[0], visible=True)
@@ -54,7 +51,7 @@ while True:
             window['-IMAGE-'].update('sun.png')
 
         # part sun
-        if weather in ('Partly Sunny', 'Mostly Sunny', 'Partly cloudly', 'Mostly cloudy', 'Cloudly', 'Overcast'):
+        if weather in ('Partly Sunny', 'Mostly Sunny', 'Partly cloudy', 'Mostly cloudy', 'Cloudly', 'Overcast'):
             window['-IMAGE-'].update('part sun.png')
 
         # rain
